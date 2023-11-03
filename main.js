@@ -100,6 +100,7 @@ function makeBook(bookObject) {
 
     completeButton.addEventListener('click', () => {
       undoTaskToCompleted(bookObject.id);
+      searchBookDisplay();
     });
 
     const deleteButton = document.createElement('button');
@@ -108,6 +109,7 @@ function makeBook(bookObject) {
 
     deleteButton.addEventListener('click', () => {
       removeTaskToCompleted(bookObject.id);
+      searchBookDisplay();
     });
 
     containerButton.append(completeButton, deleteButton);
@@ -118,6 +120,7 @@ function makeBook(bookObject) {
 
     unCompleteButton.addEventListener('click', () => {
       addTaskToCompleted(bookObject.id);
+      searchBookDisplay();
     });
 
     const deleteButton = document.createElement('button');
@@ -126,6 +129,7 @@ function makeBook(bookObject) {
 
     deleteButton.addEventListener('click', () => {
       removeTaskToCompleted(bookObject.id);
+      searchBookDisplay();
     });
 
     containerButton.append(unCompleteButton, deleteButton);
@@ -133,11 +137,41 @@ function makeBook(bookObject) {
   return container;
 }
 
+function searchBookDisplay() {
+  const inputSearch = document.getElementById('searchBookTitle');
+  const textSearch = inputSearch.value.toLowerCase();
+
+  const inCompletedBook = document.getElementById('incompleteBookshelfList');
+  inCompletedBook.innerHTML = '';
+
+  const completedBook = document.getElementById('completeBookshelfList');
+  completedBook.innerHTML = '';
+
+  for (const bookItem of books) {
+    const title = bookItem.title.toLowerCase();
+
+    if (title.includes(textSearch)) {
+      const bookElement = makeBook(bookItem);
+      if (!bookItem.isCompleted) {
+        inCompletedBook.append(bookElement);
+      } else {
+        completedBook.append(bookElement);
+      }
+    }
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const submitForm = document.getElementById('inputBook');
+  const inputSearch = document.getElementById('searchBook');
+
   submitForm.addEventListener('submit', (event) => {
     event.preventDefault();
     addBook();
+  });
+
+  inputSearch.addEventListener('input', () => {
+    searchBookDisplay();
   });
 });
 
