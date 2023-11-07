@@ -46,6 +46,7 @@ function saveData() {
   if (isStorageExist()) {
     const parsed = JSON.stringify(books);
     localStorage.setItem(STORAGE_KEY, parsed);
+    document.dispatchEvent(new Event(SAVED_EVENT));
   }
 }
 
@@ -95,7 +96,7 @@ function removeTaskToCompleted(bookId) {
 function addBook() {
   const bookTitle = document.getElementById('inputBookTitle').value;
   const bookAuthor = document.getElementById('inputBookAuthor').value;
-  const bookYear = document.getElementById('inputBookYear').value;
+  const bookYear = parseInt(document.getElementById('inputBookYear').value);
   const bookIsComplete = document.getElementById('inputBookIsComplete').checked;
 
   const generateID = generateId();
