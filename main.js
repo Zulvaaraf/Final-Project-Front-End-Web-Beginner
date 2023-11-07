@@ -1,7 +1,6 @@
 const books = [];
 const RENDER_EVENT = 'render-book';
 const STORAGE_KEY = 'BOOKSHELF_APPS';
-const SAVED_EVENT = 'saved-book';
 
 function generateId() {
   return +new Date();
@@ -47,7 +46,6 @@ function saveData() {
   if (isStorageExist()) {
     const parsed = JSON.stringify(books);
     localStorage.setItem(STORAGE_KEY, parsed);
-    document.dispatchEvent(new Event(SAVED_EVENT));
   }
 }
 
