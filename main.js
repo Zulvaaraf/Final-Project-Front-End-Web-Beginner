@@ -1,7 +1,7 @@
 const books = [];
 const RENDER_EVENT = 'render-book';
-const SAVED_EVENT = 'saved-book';
 const STORAGE_KEY = 'BOOKSHELF_APPS';
+const SAVED_EVENT = 'saved-book';
 
 function generateId() {
   return +new Date();
@@ -35,6 +35,35 @@ function findIndexBook(bookId) {
   return -1;
 }
 
+function isStorageExist() {
+  if (typeof Storage === undefined) {
+    alert('Browser tidak mendukung Local Storage');
+    return false;
+  }
+  return true;
+}
+
+function saveData() {
+  if (isStorageExist()) {
+    const parsed = JSON.stringify(books);
+    localStorage.setItem(STORAGE_KEY, parsed);
+    document.dispatchEvent(new Event(SAVED_EVENT));
+  }
+}
+
+function loadDataFromStorage() {
+  const serializedData = localStorage.getItem(STORAGE_KEY);
+  const data = JSON.parse(serializedData);
+
+  if (data !== null) {
+    for (const book of data) {
+      books.push(book);
+    }
+  }
+
+  document.dispatchEvent(new Event(RENDER_EVENT));
+}
+
 function addTaskToCompleted(bookId) {
   const bookTarget = findBook(bookId);
 
@@ -42,6 +71,7 @@ function addTaskToCompleted(bookId) {
 
   bookTarget.isCompleted = true;
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 }
 
 function undoTaskToCompleted(bookId) {
@@ -51,6 +81,7 @@ function undoTaskToCompleted(bookId) {
 
   bookTarget.isCompleted = false;
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 }
 
 function removeTaskToCompleted(bookId) {
@@ -60,6 +91,7 @@ function removeTaskToCompleted(bookId) {
 
   books.splice(bookTarget, 1);
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 }
 
 function addBook() {
@@ -73,6 +105,7 @@ function addBook() {
   books.push(bookObject);
 
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 }
 
 function makeBook(bookObject) {
@@ -173,10 +206,13 @@ document.addEventListener('DOMContentLoaded', () => {
   inputSearch.addEventListener('input', () => {
     searchBookDisplay();
   });
+
+  if (isStorageExist()) {
+    loadDataFromStorage();
+  }
 });
 
 document.addEventListener(RENDER_EVENT, () => {
-  console.log(books);
   const inCompletedBook = document.getElementById('incompleteBookshelfList');
   inCompletedBook.innerHTML = '';
 
