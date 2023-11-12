@@ -16,8 +16,8 @@ button {
 }
 
 .head_bar {
-    padding: 12px;
     display: flex;
+    padding: 12px;
     align-items: center;
     justify-content: center;
     background-color: cornflowerblue;
@@ -25,13 +25,13 @@ button {
 }
 
 main {
-    max-width: 800px;
     width: 80%;
+    max-width: 800px;
     margin: 0 auto;
     padding: 16px;
-
 }
 
+/*
 .input_section {
     display: flex;
     flex-direction: column;
@@ -172,4 +172,4 @@ p {
 .book_shelf>.book_list>.book_item>.action>.red {
     background-color: darkred;
     color: white;
-}
+} */
