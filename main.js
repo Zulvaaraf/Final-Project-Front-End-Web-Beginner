@@ -43,19 +43,18 @@ inputInlineSection.classList.add('input_inline');
 inputInlineSection.appendChild(labelIsCompleted);
 inputInlineSection.appendChild(inputIsCompleted);
 
-const formInputBook = document.getElementById('inputBook');
-formInputBook.append(inputTitle, inputBookYear, inputBookAuthor, inputInlineSection);
-
 const buttonElement = document.createElement('button');
 buttonElement.id = 'bookSubmit';
 buttonElement.type = 'submit';
 buttonElement.textContent = 'Masukkan buku ke rak ';
 
+const formInputBook = document.getElementById('inputBook');
+formInputBook.append(inputTitle, inputBookYear, inputBookAuthor, inputInlineSection, buttonElement);
+formInputBook.parentNode.insertBefore(textInputSection, formInputBook);
+
 const spanElement = document.createElement('span');
 spanElement.textContent = 'Belum Selesai dibaca';
-
 buttonElement.appendChild(spanElement);
-inputSection.append(buttonElement);
 
 // const books = [];
 // const RENDER_EVENT = 'render-book';
