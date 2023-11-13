@@ -1,3 +1,4 @@
+// INPUT BOOK
 const headBar = document.querySelector('.head_bar');
 const textHeader = document.createElement('h1');
 textHeader.textContent = 'Bookshelf Apps';
@@ -55,6 +56,39 @@ formInputBook.parentNode.insertBefore(textInputSection, formInputBook);
 const spanElement = document.createElement('span');
 spanElement.textContent = 'Belum Selesai dibaca';
 buttonElement.appendChild(spanElement);
+
+// SEARCH SECTION
+const searchSection = document.querySelector('.search_section');
+const textSearch = document.createElement('h2');
+const formSearchBook = document.querySelector('#searchBook');
+
+function createInputSearch(id, type, placeholder) {
+  const inputSearch = document.createElement('input');
+  inputSearch.id = id;
+  inputSearch.type = type;
+  inputSearch.placeholder = placeholder;
+
+  formSearchBook.append(inputSearch);
+
+  return inputSearch;
+}
+
+const searchBook = createInputSearch('searchBookTitle', 'text', 'Search');
+
+textSearch.textContent = 'Cari Buku (Optional)';
+formSearchBook.appendChild(searchBook);
+formSearchBook.parentNode.insertBefore(textSearch, formSearchBook);
+
+// INCOMPLETE & COMPLETE BOOKSHELF LIST
+const bookList = document.querySelector('.book_shelf');
+const textInCompleteBook = document.createElement('h2');
+const textCompleteBook = document.createElement('h2');
+const inCompleteSection = document.getElementById('incompleteBookshelfList');
+const completeSection = document.getElementById('completeBookshelfList');
+textInCompleteBook.textContent = 'Belum selesai dibaca';
+textCompleteBook.textContent = 'Selesai dibaca';
+inCompleteSection.parentNode.insertBefore(textInCompleteBook, inCompleteSection);
+completeSection.parentNode.insertBefore(textCompleteBook, completeSection);
 
 // const books = [];
 // const RENDER_EVENT = 'render-book';
