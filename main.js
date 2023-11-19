@@ -126,34 +126,33 @@ function findIndexBook(bookId) {
   return -1;
 }
 
-// function isStorageExist() {
-//   if (typeof Storage === undefined) {
-//     alert('Browser tidak mendukung Local Storage');
-//     return false;
-//   }
-//   return true;
-// }
+function isStorageExist() {
+  if (typeof Storage === undefined) {
+    alert('Browser tidak mendukung LocalStorage');
+    return false;
+  }
+  return true;
+}
 
-// function saveData() {
-//   if (isStorageExist()) {
-//     const parsed = JSON.stringify(books);
-//     localStorage.setItem(STORAGE_KEY, parsed);
-//     document.dispatchEvent(new Event(SAVED_EVENT));
-//   }
-// }
+function saveData() {
+  if (isStorageExist()) {
+    const parsed = JSON.stringify(books);
+    localStorage.setItem(STORAGE_KEY, parsed);
+  }
+}
 
-// function loadDataFromStorage() {
-//   const serializedData = localStorage.getItem(STORAGE_KEY);
-//   const data = JSON.parse(serializedData);
+function loadDataFromStorage() {
+  const serializedData = localStorage.getItem(STORAGE_KEY);
+  const data = JSON.parse(serializedData);
 
-//   if (data !== null) {
-//     for (const book of data) {
-//       books.push(book);
-//     }
-//   }
+  if (data !== null) {
+    for (const book of data) {
+      books.push(book);
+    }
+  }
 
-//   document.dispatchEvent(new Event(RENDER_EVENT));
-// }
+  document.dispatchEvent(new Event(RENDER_EVENT));
+}
 
 function addTaskToCompleted(bookId) {
   const bookTarget = findBook(bookId);
@@ -162,6 +161,7 @@ function addTaskToCompleted(bookId) {
 
   bookTarget.isCompleted = true;
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 }
 
 function undoTaskToCompleted(bookId) {
@@ -171,6 +171,7 @@ function undoTaskToCompleted(bookId) {
 
   bookTarget.isCompleted = false;
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 }
 
 function removeTaskToCompleted(bookId) {
@@ -180,6 +181,7 @@ function removeTaskToCompleted(bookId) {
 
   books.splice(bookTarget, 1);
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 }
 
 function addBook() {
@@ -193,6 +195,7 @@ function addBook() {
   books.push(bookObject);
 
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 }
 
 function makeBook(bookObject) {
@@ -294,6 +297,10 @@ document.addEventListener('DOMContentLoaded', () => {
   inputSearch.addEventListener('input', () => {
     searchBookDisplay();
   });
+
+  if (isStorageExist()) {
+    loadDataFromStorage();
+  }
 });
 
 document.addEventListener(RENDER_EVENT, () => {
